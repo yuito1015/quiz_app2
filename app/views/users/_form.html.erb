@@ -7,7 +7,7 @@
 </div>
 
 <% if key == "new"%>
-<%= f.hidden_field :image_name, value: "default_#{(1..7).to_a.sample}.PNG" %>
+<%= f.hidden_field :image_name, value: "default_#{(1..7).to_a.sample}.png" %>
 <% else %>
 <div class="form-group">
   <%= f.label :image_name %>
