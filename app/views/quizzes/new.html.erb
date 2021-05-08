@@ -1,0 +1,10 @@
+<% provide(:title, "クイズ") %>
+
+<div class="jumbotron text-center" style="background-color: rgba(233,236,239,0.9)">
+  <h1>クイズに挑戦！</h1>
+  <p class="my-5">
+    投稿された問題の中からランダムに10問出題します<br>
+    全て自由記述形式のクイズです
+  </p>
+  <%= link_to "スタート", quizzes_path, method: :post, class: "btn btn-primary btn-lg" %>
+</div>

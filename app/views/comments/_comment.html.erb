@@ -1,0 +1,27 @@
+<li class="mb-4">
+  <div class="row">
+    <div class="col-2 pr-1 pr-md-3 text-right">
+      <%= link_to (icon_for comment.user, size: 30), comment.user %>
+    </div>
+
+    <div class="col-10">
+      <div>
+        <small><strong><%= comment.user.name %></strong></small>
+        <% if current_user.following?(comment.user) %>
+        <small class="fas fa-check-circle ml-1 text-primary"></small>
+        <% end %>
+        <small class="text-secondary ml-2"><%= time_ago_in_words(comment.created_at) %></small>
+        <span class="float-right dropdown">
+          <button class="px-0 border-0 bg-transparent" data-toggle="dropdown" data-display="static">
+            <small class="fas fa-ellipsis-v text-secondary"></small>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-md-left">
+            <%= link_to "削除", [post, comment], method: :delete, data: {confirm: "コメントを削除しますか？"}, class: "dropdown-item" %>
+          </div>
+        </span>
+      </div>
+
+      <p class="my-1"><%= comment.content %></p>
+    </div>
+  </div>
+</li>

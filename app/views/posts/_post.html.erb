@@ -1,0 +1,51 @@
+<li>
+  <div class="row mb-3">
+    <div class="col-2 text-right">
+      <%= link_to (icon_for post.user, size: 40), post.user %>
+    </div>
+
+    <div class="col-10">
+      <div>
+        <small><strong><%= post.user.name %></strong></small>
+        <% if current_user.following?(post.user) %>
+        <small class="fas fa-check-circle ml-1 text-primary"></small>
+        <% end %>
+        <small class="text-secondary ml-2"><%= time_ago_in_words(post.created_at) %></small>
+
+        <% if current_user?(post.user) %>
+        <span class="float-right dropdown">
+          <button class="px-0 border-0 bg-transparent" data-toggle="dropdown" data-display="static">
+            <small class="fas fa-ellipsis-v text-secondary"></small>
+          </button>
+          <div class="dropdown-menu dropdown-menu-right dropdown-menu-md-left">
+            <%= link_to "編集", edit_post_path(post), class: "dropdown-item" %>
+            <%= link_to "削除", post, method: :delete, data: {confirm: "投稿を削除しますか？"}, class: "dropdown-item" %>
+          </div>
+        </span>
+        <% end %>
+      </div>
+
+      <p class="my-1"><%= post.question %></p>
+
+      <%= render "posts/post_menu", post: post %>
+
+      <small>
+        <%= link_to "答え", "#post-#{post.id}", class: "mr-3", "data-toggle": "collapse" %>
+        <%= link_to "返信", post %>
+      </small>
+
+      <div class="collapse" id="post-<%= post.id %>">
+        <hr class="my-2">
+        <p><%= post.answer %></p>
+      </div>
+    </div>
+  </div>
+
+  <% if (comments = post.comment(current_user)).any? %>
+  <ul class="mt-4">
+    <%= render comments, post: post %>
+  </ul>
+  <% end %>
+
+  <hr>
+</li>

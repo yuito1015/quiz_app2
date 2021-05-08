@@ -1,0 +1,57 @@
+@import "bootstrap";
+
+@include media-breakpoint-down(md) {
+  html {
+    font-size: 14px;
+  }
+
+  .tab-pane .card {
+    width: 100% !important;
+  }
+}
+
+body {
+  padding-top: 5rem;
+}
+
+textarea {
+  resize: none;
+}
+
+ul {
+  padding: 0;
+  list-style: none;
+}
+
+h2 {
+  margin: 1.5rem 0;
+  text-align: center;
+}
+
+p {
+  margin: 0;
+}
+
+.field_with_errors {
+
+  input,
+  textarea {
+    @extend .is-invalid;
+  }
+}
+
+.comment-btn {
+  &:hover {
+    text-decoration: none;
+  }
+}
+
+.dropdown-menu {
+  min-width: auto;
+}
+
+.bg {
+  background-image: url("/bg.jpg");
+  background-size: cover;
+  background-position: center;
+}

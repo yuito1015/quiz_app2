@@ -1,0 +1,13 @@
+<%= form_with(model: current_user.likes.build, local: false) do |f| %>
+
+<div><%= hidden_field_tag :post_id, post.id %></div>
+
+<button type="submit" class="px-0 border-0 bg-transparent">
+  <small class="far fa-heart text-secondary"></small>
+</button>
+
+<% if post.likes.any? %>
+<small class="pl-2 text-secondary"><%= post.liked_users.count %></small>
+<% end %>
+
+<% end %>

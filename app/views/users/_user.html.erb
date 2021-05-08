@@ -1,0 +1,14 @@
+<li>
+  <%= link_to (icon_for user, size: 50), user %>
+  <strong class="ml-3"><%= user.name %></strong>
+
+  <% if current_user.following?(user) %>
+  <small class="fas fa-check-circle mx-1 text-primary"></small>
+  <% end %>
+
+  <% if current_user.admin? && !current_user?(user) %>
+  | <%= link_to "delete", user, method: :delete, data: { confirm: "You sure?" } %>
+  <% end %>
+
+  <hr>
+</li>

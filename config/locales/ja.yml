@@ -1,0 +1,15 @@
+ja:
+  activerecord:
+    attributes:
+      user:
+        name: ユーザー名
+        image_name: アイコン
+        password: パスワード
+      post:
+        question: 問題
+        answer: 答え
+      comment:
+        content: コメント
+  time:
+    formats:
+      default: "%Y-%m-%d %H:%M:%S"
