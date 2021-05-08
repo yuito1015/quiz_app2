@@ -13,22 +13,24 @@ module SessionsHelper
     user && user == current_user
   end
 
-  def logged_in?
-    !current_user.nil?
-  end
-
   def log_out
     session.delete(:user_id)
     @current_user = nil
   end
 
-  def store_location
-    session[:forwarding_url] = request.original_url if request.get?
+  def logged_in?
+    !current_user.nil?
   end
 
-  def redirect_to_or(default)
-    redirect_to(session[:forwarding_url] || default)
-    session.delete(:forwarding_url)
+  def forbid_log_in_user
+    if logged_in?
+      flash[:danger] = "すでにログインしています"
+      redirect_to posts_path
+    end
+  end
+
+  def store_location
+    session[:forwarding_url] = request.original_url if request.get?
   end
 
   def logged_in_user
@@ -37,6 +39,11 @@ module SessionsHelper
       flash[:danger] = "ログインが必要です"
       redirect_to login_url
     end
+  end
+
+  def redirect_to_or(default)
+    redirect_to(session[:forwarding_url] || default)
+    session.delete(:forwarding_url)
   end
 
   def store_referrer

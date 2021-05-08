@@ -1,5 +1,5 @@
 <li>
-  <div class="row mb-3">
+  <div class="row">
     <div class="col-2 text-right">
       <%= link_to (icon_for post.user, size: 40), post.user %>
     </div>
@@ -10,10 +10,10 @@
         <% if current_user.following?(post.user) %>
         <small class="fas fa-check-circle ml-1 text-primary"></small>
         <% end %>
-        <small class="text-secondary ml-2"><%= time_ago_in_words(post.created_at) %></small>
+        <small class="ml-2 text-secondary"><%= time_ago_in_words(post.created_at) %></small>
 
         <% if current_user?(post.user) %>
-        <span class="float-right dropdown">
+        <span class="dropdown float-right">
           <button class="px-0 border-0 bg-transparent" data-toggle="dropdown" data-display="static">
             <small class="fas fa-ellipsis-v text-secondary"></small>
           </button>
@@ -29,23 +29,25 @@
 
       <%= render "posts/post_menu", post: post %>
 
-      <small>
-        <%= link_to "答え", "#post-#{post.id}", class: "mr-3", "data-toggle": "collapse" %>
+      <div class="mt-3">
+        <%= link_to "答え", "#post-#{post.id}", "data-toggle": "collapse", class: "mr-4" %>
         <%= link_to "返信", post %>
-      </small>
+      </div>
 
       <div class="collapse" id="post-<%= post.id %>">
-        <hr class="my-2">
+        <hr class="mb-2">
         <p><%= post.answer %></p>
       </div>
     </div>
   </div>
 
+  <% if key == "comment" %>
   <% if (comments = post.comment(current_user)).any? %>
   <ul class="mt-4">
     <%= render comments, post: post %>
   </ul>
   <% end %>
+  <% end %>
 
-  <hr>
+  <hr class="mb-2">
 </li>

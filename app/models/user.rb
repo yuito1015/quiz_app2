@@ -40,4 +40,8 @@ class User < ApplicationRecord
   def like?(post)
     liked_posts.include?(post)
   end
+
+  def comment?(post)
+    comment_posts.include?(post)
+  end
 end

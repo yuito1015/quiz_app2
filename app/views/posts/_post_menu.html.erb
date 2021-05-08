@@ -1,5 +1,5 @@
-<div class="row mb-1">
-  <span class="col-auto" id="like-btn-<%= post.id %>" style="min-width: 25%;">
+<div class="row">
+  <span class="col-auto pr-0" id="like-btn-<%= post.id %>" style="min-width: 20%;">
     <% if current_user.like?(post) %>
     <%= render "likes/unlike", post: post %>
     <% else %>
@@ -7,12 +7,16 @@
     <% end %>
   </span>
 
-  <span class="col-3 px-0" style="min-width: 25%;">
+  <span class="col-auto px-0" style="min-width: 20%;">
     <%= link_to post, class: "comment-btn" do %>
+    <% if current_user.comment?(post)%>
+    <small class="fas fa-comment text-secondary"></small>
+    <% else %>
     <small class="far fa-comment text-secondary"></small>
     <% end %>
+    <% end %>
     <% if post.comments.any? %>
-    <small class="pl-2 text-secondary"><%= post.comments.count %></small>
+    <small class="pl-1 text-secondary"><%= post.comments.count %></small>
     <% end %>
   </span>
 </div>
