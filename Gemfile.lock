@@ -211,7 +211,7 @@ PLATFORMS
 DEPENDENCIES
   bcrypt (~> 3.1.7)
   bootsnap (>= 1.4.4)
-  bootstrap
+  bootstrap (~> 4.6.0)
   bootstrap-will_paginate
   byebug
   capybara (>= 3.26)
