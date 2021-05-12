@@ -1,0 +1,11 @@
+<label for="post_answer">答え</label>
+<input type="hidden" name="post[answer]" id="post_answer">
+
+<% for i in 1..4 %>
+<div class="form-group row">
+  <label class="col-1 col-form-label pl-4" for="post_<%= i %>"><%= i %></label>
+  <div class="col">
+    <input value="<%= @options[i-1] if @options %>" class="form-control" name="options[]" id="post_<%= i %>">
+  </div>
+</div>
+<% end %>

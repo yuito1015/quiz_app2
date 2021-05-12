@@ -1,5 +1,5 @@
-<li class="mb-4">
-  <div class="row">
+<li>
+  <div class="row mb-4">
     <div class="col-2 pr-1 pr-md-3 text-right">
       <%= link_to (icon_for comment.user, size: 30), comment.user %>
     </div>
@@ -11,14 +11,18 @@
         <small class="fas fa-check-circle ml-1 text-primary"></small>
         <% end %>
         <small class="text-secondary ml-2"><%= time_ago_in_words(comment.created_at) %></small>
-        <span class="float-right dropdown">
+
+        <% if current_user?(comment.user) %>
+        <span class="dropdown float-right">
           <button class="px-0 border-0 bg-transparent" data-toggle="dropdown" data-display="static">
             <small class="fas fa-ellipsis-v text-secondary"></small>
           </button>
           <div class="dropdown-menu dropdown-menu-right dropdown-menu-md-left">
-            <%= link_to "削除", [post, comment], method: :delete, data: {confirm: "コメントを削除しますか？"}, class: "dropdown-item" %>
+            <%= link_to "削除", [post, comment], method: :delete, data: {confirm: "コメントを削除しますか？"},
+                                                                  class: "dropdown-item" %>
           </div>
         </span>
+        <% end %>
       </div>
 
       <p class="my-1"><%= comment.content %></p>

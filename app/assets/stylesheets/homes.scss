@@ -1,12 +1,20 @@
 @import "bootstrap";
 
-@include media-breakpoint-down(md) {
+@include media-breakpoint-down(sm) {
   html {
     font-size: 14px;
   }
 
   .tab-pane .card {
     width: 100% !important;
+  }
+}
+
+@include media-breakpoint-down(xs) {
+  .hr {
+    position: relative;
+    left: -5%;
+    width: 110%;
   }
 }
 
@@ -20,7 +28,7 @@ ul {
 }
 
 h2 {
-  margin: 1.5rem 0;
+  margin: 1rem 0;
   text-align: center;
 }
 

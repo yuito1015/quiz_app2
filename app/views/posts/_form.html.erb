@@ -1,15 +1,81 @@
-<%= form_with(model: @post, local: true) do |f| %>
-<%= render 'shared/error_messages', object: f.object %>
+<%= form_with(model: @post, scope: :post, local: true) do |f| %>
+<%= render "shared/error_messages", object: f.object %>
+
+<div class="form-row">
+  <div class="form-group col-sm-6">
+    <%= f.label :kind %>
+    <%= f.select :kind, kind, {}, class: "custom-select" %>
+  </div>
+
+  <div class="form-group col-sm-6">
+    <%= f.label :media %>
+    <%= f.select :media, media, {}, class: "custom-select" %>
+  </div>
+</div>
 
 <div class="form-group">
   <%= f.label :question %>
-  <%= f.text_area :question, class: 'form-control', rows: "4" %>
+  <%= f.text_area :question, class: "form-control", rows: "4" %>
 </div>
 
-<div class="form-group">
-  <%= f.label :answer %>
-  <%= f.text_field :answer, class: 'form-control' %>
+
+<div class="answer-form">
+  <%= render "form_1" %>
 </div>
 
-<%= f.submit yield(:button_text), class: "btn btn-primary btn-block mt-4" %>
+
+<div class="form-row">
+  <div class="form-group col-sm-6">
+    <%= f.label :series %>
+    <%= f.select :series, series, {include_blank: "指定しない"}, class: "custom-select" %>
+  </div>
+
+  <div class="form-group col-sm-6">
+    <%= f.label :belong %>
+    <%= f.select :belong, belong, {include_blank: "指定しない"}, class: "custom-select" %>
+  </div>
+
+  <div class="form-group col-sm-6">
+    <%= f.label :group %>
+    <%= f.select :group, group, {include_blank: "指定しない"}, class: "custom-select" %>
+  </div>
+
+  <div class="form-group col-sm-6">
+    <%= f.label :geography %>
+    <%= f.select :geography, geography, {include_blank: "指定しない"}, class: "custom-select" %>
+  </div>
+
+  <div class="form-group col-sm-6">
+    <%= f.label :category %>
+    <%= f.select :category, category, {include_blank: "指定しない"}, class: "custom-select" %>
+  </div>
+</div>
+
+
+<%= f.submit text, class: "btn btn-primary btn-block mt-4" %>
 <% end %>
+
+
+<script>
+  $(function () {
+    var val = $('[name="post[kind]"] option:selected').val();
+    if (val == '自由記述') {
+      $('.answer-form').html('<%= j(render "form_1") %>');
+    } else if (val == '一問一答' || val == '並び替え') {
+      $('.answer-form').html('<%= j(render "form_2") %>');
+    } else if (val == '一問多答') {
+      $('.answer-form').html('<%= j(render "form_2") %>');
+    }
+  });
+
+  $('[name="post[kind]"]').change(function () {
+    var val = $('[name="post[kind]"] option:selected').val();
+    if (val == '自由記述') {
+      $('.answer-form').html('<%= j(render "form_1") %>');
+    } else if (val == '一問一答' || val == '並び替え') {
+      $('.answer-form').html('<%= j(render "form_2") %>');
+    } else if (val == '一問多答') {
+      $('.answer-form').html('<%= j(render "form_2") %>');
+    }
+  });
+</script>

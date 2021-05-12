@@ -2,13 +2,25 @@
   <% if logged_in? %>
   <%= link_to "OnePieceQuiz", posts_path, class: "navbar-brand" %>
 
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+  <% if current_page?(posts_path) %>
+  <button class="px-0 border-0 bg-transparent ml-auto d-lg-none" data-toggle="modal" data-target="#searchModal">
+    <span class="fas fa-search navbar-brand"></span>
+  </button>
+  <% end %>
+
+  <button class="navbar-toggler" data-toggle="collapse" data-target="#navbar">
     <span class="navbar-toggler-icon"></span>
   </button>
 
-  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+  <div class="collapse navbar-collapse" id="navbar">
     <ul class="navbar-nav ml-auto">
+      <% if current_page?(posts_path) %>
+      <li class="nav-item active d-none d-lg-block">
+        <button class="border-0 bg-transparent nav-link" data-toggle="modal" data-target="#searchModal">
+          <span class="fas fa-search"></span>
+        </button>
+      </li>
+      <% end %>
       <li class="nav-item <%= 'active' if current_page?(current_user) %>">
         <%= link_to current_user.name, current_user, class: "nav-link" %>
       </li>

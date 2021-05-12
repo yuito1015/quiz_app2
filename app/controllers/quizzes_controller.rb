@@ -23,6 +23,7 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
+    destroy_quiz
   end
 
   private

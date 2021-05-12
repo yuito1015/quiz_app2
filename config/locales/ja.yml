@@ -8,8 +8,15 @@ ja:
       post:
         question: 問題
         answer: 答え
+        kind: 問題形式
+        media: メディア
+        series: シリーズ
+        belong: 所属
+        group: 組織
+        geography: 地理
+        category: カテゴリー
       comment:
         content: コメント
   time:
     formats:
-      default: "%Y-%m-%d %H:%M:%S"
+      default: "%Y-%m-%d %H:%M"

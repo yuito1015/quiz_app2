@@ -1,7 +1,8 @@
 <% provide(:title, @user.name) %>
-<div class="row justify-content-center">
-  <div class="col-md-auto mr-4 mb-3" style="min-width: 30%;">
-    <h2>
+
+<div class="row justify-content-center mt-2">
+  <div class="col-md-4 mb-3 p-md-0">
+    <h2 class="mb-4">
       <%= icon_for @user %>
       <%= @user.name %>
     </h2>
@@ -10,21 +11,22 @@
     <p class="text-center">
       <%= link_to "編集", edit_user_path(current_user) %>
       <% if !current_user.admin? %>
-      <%= link_to "削除", current_user, method: :delete, data: { confirm: "アカウントを削除しますか？" }, class: "ml-3" %>
+      <%= link_to "削除", current_user, method: :delete, data: { confirm: "アカウントを削除しますか？" },
+                                                                 class: "ml-3" %>
       <% end %>
     </p>
     <% else %>
     <div id="follow-btn">
       <% if current_user.following?(@user) %>
-      <%= render 'unfollow' %>
+      <%= render "follows/unfollow", user: @user %>
       <% else %>
-      <%= render 'follow' %>
+      <%= render "follows/follow", user: @user %>
       <% end %>
     </div>
     <% end %>
   </div>
 
-  <div class="col-md-7 col-lg-6 mt-4">
+  <div class="col-md-7 col-lg-6 offset-md-1 mt-3">
     <nav>
       <div class="nav nav-tabs nav-fill">
         <a class="nav-item nav-link active" data-toggle="tab" href="#nav-posts">投稿 (<%= @user.posts.count %>)</a>
@@ -38,7 +40,7 @@
       <div class="tab-pane active" id="nav-posts">
         <% if @posts.any? %>
         <ul>
-          <%= render @posts %>
+          <%= render @posts, key: "no_comment" %>
         </ul>
         <%= will_paginate @posts %>
         <% end %>
@@ -47,7 +49,7 @@
       <div class="tab-pane" id="nav-comments">
         <% if @comments.any? %>
         <ul>
-          <%= render @comments %>
+          <%= render @comments, key: "comment" %>
         </ul>
         <%= will_paginate @comments %>
         <% end %>
@@ -56,7 +58,7 @@
       <div class="tab-pane" id="nav-likes">
         <% if @likes.any? %>
         <ul>
-          <%= render @likes %>
+          <%= render @likes, key: "no_comment" %>
         </ul>
         <%= will_paginate @likes %>
         <% end %>

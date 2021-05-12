@@ -1,12 +1,13 @@
 class SessionsController < ApplicationController
   before_action :forbid_log_in_user, only: [:new, :create]
+  before_action :logged_in_user, only: [:destroy]
 
   def new
   end
 
   def create
-    user = User.find_by(name: params[:session][:name])
-    if user && user.authenticate(params[:session][:password])
+    user = User.find_by(name: params[:name])
+    if user && user.authenticate(params[:password])
       log_in user
       flash[:success] = "ログインしました"
       redirect_to_or posts_path
