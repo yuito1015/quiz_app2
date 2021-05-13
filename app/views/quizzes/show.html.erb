@@ -1,7 +1,7 @@
 <% provide(:title, "クイズ") %>
 
 <div class="row justify-content-center">
-  <div class="col-md-8 col-lg-6">
+  <div class="col-md-9 col-lg-7">
     <div class="card my-4" style="min-height: 12rem;">
       <div class="card-body">
         <h5 class="card-title">Q<%= params[:id] %></h5>
@@ -11,10 +11,32 @@
 
     <%= form_with(url: answer_path(params[:id]), local: true) do |f| %>
 
+    <% if @post.kind == "自由記述" %>
     <%= f.text_field :answer, class: "form-control" %>
+
+    <% elsif @post.kind == "一問一答" %>
+    <% @post.quiz_options.each do |i, option| %>
+    <%= f.radio_button :answer, i, class: "d-none" %>
+    <%= f.label "answer_#{i}", option, type: "button", class: "btn btn-light btn-block border" %>
+    <% end %>
+    <% elsif @post.kind == "一問多答" %>
+
+    <% elsif @post.kind == "並び替え" %>
+
+    <% end %>
 
     <%= f.submit "解答", class: "btn btn-primary btn-block mt-4" %>
     <% end %>
-
   </div>
 </div>
+
+
+<script>
+  $('input:radio[name="answer"]').click(function () {
+    var id = $(this).val();
+    if ($('.btn-success')) {
+      $('.btn-success').removeClass('btn-success').addClass('btn-light');
+    }
+    $('label[for="answer_' + id + '"]').removeClass('btn-light').addClass('btn-success');
+  });
+</script>

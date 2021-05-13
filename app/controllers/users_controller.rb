@@ -5,15 +5,15 @@ class UsersController < ApplicationController
   before_action :admin_user, only: :destroy
 
   def index
-    @users = User.paginate(page: params[:page])
+    @users = User.page(params[:page])
   end
 
   def show
     @user = User.find(params[:id])
-    @posts = @user.posts.paginate(page: params[:page])
-    @comments = @user.comment_posts.distinct.paginate(page: params[:page])
-    @likes = @user.liked_posts.paginate(page: params[:page])
-    @follows = @user.following.paginate(page: params[:page])
+    @posts = @user.posts.page(params[:page])
+    @comments = @user.comment_posts.distinct.page(params[:page])
+    @likes = @user.liked_posts.page(params[:page])
+    @follows = @user.following.page(params[:page])
   end
 
   def new

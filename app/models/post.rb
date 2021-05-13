@@ -29,13 +29,33 @@ class Post < ApplicationRecord
   end
 
   def options
-    return if kind == "自由記述"
-    return answer.split("　").shuffle if kind == "一問一答" || kind == "並び替え"
+    case kind
+    when "自由記述"
+      return
+    when "一問一答", "並び替え"
+      return answer.split("　").shuffle
+    when "一問多答"
+      return answer.split("　").drop(1).shuffle
+    end
   end
 
   def correct
-    return answer if kind == "自由記述"
-    return answer.split("　").first if kind == "一問一答"
-    return answer.split("　").join(" → ") if kind == "並び替え"
+    case kind
+    when "自由記述"
+      return answer
+    when "一問一答"
+      return answer.split("　").first
+    when "一問多答"
+      answers = answer.split("　")
+      id = answers.first.split(",")
+      return id.map { |i| answers[i.to_i] }.join("、")
+    when "並び替え"
+      return answer.split("　").join(" → ")
+    end
+  end
+
+  def quiz_options
+    return answer.split("　").map.with_index { |option, i| [i, option] }
+                 .to_h.sort_by { rand } if kind == "一問一答" || kind == "並び替え"
   end
 end

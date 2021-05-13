@@ -3,6 +3,7 @@ class QuizzesController < ApplicationController
   after_action :destroy, only: [:index]
 
   def index
+    checking_answers
   end
 
   def show
@@ -23,7 +24,6 @@ class QuizzesController < ApplicationController
   end
 
   def destroy
-    destroy_quiz
   end
 
   private
@@ -39,6 +39,28 @@ class QuizzesController < ApplicationController
     for i in 1..10
       session.delete("quiz_id_#{i}")
       session.delete("quiz_answer_#{i}")
+    end
+  end
+
+  def checking_answers
+    @quizzes = {}
+    @count = 0
+    for i in 1..10
+      post = Post.find(session["quiz_id_#{i}"])
+      case post.kind
+      when "自由記述"
+        if result = (answer = session["quiz_answer_#{i}"]) == post.answer
+          @count += 1
+        end
+      when "一問一答"
+        if result = (id = session["quiz_answer_#{i}"]) == "0"
+          @count += 1
+        end
+        answer = post.answer.split("　")[id.to_i]
+      when "一問多答"
+      when "並び替え"
+      end
+      @quizzes[i] = { post: post, result: result, answer: answer }
     end
   end
 end

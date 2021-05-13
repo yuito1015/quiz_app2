@@ -5,13 +5,13 @@ class PostsController < ApplicationController
 
   def index
     @search = search_params
-    @posts = Post.search(@search).paginate(page: params[:page])
+    @posts = Post.search(@search).page(params[:page])
   end
 
   def show
     @post = Post.find(params[:id])
     @comment = current_user.comments.build
-    @comments = @post.comments.paginate(page: params[:page])
+    @comments = @post.comments.page(params[:page])
   end
 
   def new
@@ -19,33 +19,35 @@ class PostsController < ApplicationController
   end
 
   def create
-    params[:post][:answer] = params[:options].join("　") if params[:options]
+    rewrite_answer
     @post = current_user.posts.build(post_params)
     if @post.save
       flash[:success] = "投稿を作成しました"
       redirect_to posts_url
     else
-      @answer = params[:post][:answer] if params[:post][:kind] == "自由記述"
-      @options = params[:options] if params[:options]
+      set_answer
       render "new"
     end
   end
 
   def edit
     @post = Post.find(params[:id])
-    @answer = @post.answer if @post.kind == "自由記述"
-    @options = @post.answer.split("　") unless @post.kind == "自由記述"
+    if @post.kind == "自由記述"
+      @answer = @post.answer
+    else
+      @options = @post.answer.split("　")
+    end
+    @ids = @options.shift.split(",") if @post.kind == "一問多答"
   end
 
   def update
     @post = Post.find(params[:id])
-    params[:post][:answer] = params[:options].join("　") if params[:options]
+    rewrite_answer
     if @post.update(post_params)
       flash[:success] = "投稿を編集しました"
       redirect_back_or(@post.user)
     else
-      @answer = params[:post][:answer] if params[:post][:kind] == "自由記述"
-      @options = params[:options] if params[:options]
+      set_answer
       render "edit"
     end
   end
@@ -77,5 +79,18 @@ class PostsController < ApplicationController
       flash[:danger] = "権限がありません"
       redirect_to posts_url
     end
+  end
+
+  def rewrite_answer
+    params[:options].unshift(params[:ids].join(",")) if params[:ids]
+    params[:post][:answer] = params[:options].join("　") if params[:options]
+  end
+
+  def set_answer
+    @answer = params[:post][:answer] if params[:post][:kind] == "自由記述"
+    if params[:options]
+      params[:post][:kind] == "一問多答" ? @options = params[:options].drop(1) : @options = params[:options]
+    end
+    @ids = params[:ids] if params[:ids]
   end
 end

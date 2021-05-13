@@ -1,0 +1,21 @@
+<label for="post_answer">答え</label>
+<input type="hidden" name="post[answer]" id="post_answer">
+
+<% for i in 1..4 %>
+<div class="form-group row align-items-center">
+  <div class="col-auto pr-0 pl-4">
+    <div class="custom-control custom-checkbox">
+      <% if @ids && @ids.include?(i.to_s) %>
+      <input type="checkbox" value="<%= i %>" class="custom-control-input" name="ids[]" id="check_<%= i %>" checked>
+      <% else %>
+      <input type="checkbox" value="<%= i %>" class="custom-control-input" name="ids[]" id="check_<%= i %>">
+      <% end %>
+      <label class="custom-control-label" for="check_<%= i %>"></label>
+    </div>
+  </div>
+  <label class="col-auto col-form-label pr-1 pr-sm-3 pl-2" for="post_<%= i %>"><%= i %></label>
+  <div class="col">
+    <input value="<%= @options[i-1] if @options %>" class="form-control" name="options[]" id="post_<%= i %>">
+  </div>
+</div>
+<% end %>

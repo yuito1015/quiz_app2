@@ -1,54 +1,47 @@
 <% provide(:title, "クイズ結果") %>
 
-<% h = {} %>
-<% count = 0 %>
-
-<% for i in 1..10 %>
-<% h[i] = {post: Post.find(session["quiz_id_#{i}"])} %>
-<% if h[i][:result] = h[i][:post].answer == session["quiz_answer_#{i}"] %>
-<% count += 1 %>
-<% end %>
-<% end %>
-
 <div class="row justify-content-center">
-
-  <div class="col-md-auto mx-lg-4" style="max-width: 28rem;">
+  <div class="col-md-8 col-lg-5">
     <div class="text-center">
-      <h2 class="text-danger d-inline-block my-4"><%= count %> 問正解！</h2>
+      <h2 class="text-danger d-inline-block my-4"><%= @count %> 問正解！</h2>
       <%= link_to "もう一度", new_quiz_path %>
     </div>
 
-    <div class="nav flex-column">
-      <% for i in 1..10 %>
-      <p class="py-2">
-        <% if h[i][:result] %>
+    <% @quizzes.each do |i, quiz|%>
+    <div class="row mb-3">
+      <div class="col-auto text-right" style="width: 6.5rem;">
+        <% if quiz[:result] %>
         <span class="text-danger"><%= i %>問目: ○</span>
         <% else %>
         <span><%= i %>問目: ×</span>
         <% end %>
-
-        <a href="#" class="nav-link d-inline" id="nav-<%= i %>">
-          <%= h[i][:post].answer %> / <%= session["quiz_answer_#{i}"] %>
+      </div>
+      <div class="col pl-0">
+        <a href="" class="nav-link d-inline p-0" id="nav-<%= i %>">
+          <%= quiz[:post].correct %> / <%= quiz[:answer] %>
         </a>
-      </p>
-      <% end %>
+      </div>
     </div>
+    <% end %>
   </div>
 
-  <div class="tab-content col-md-auto mt-4">
-    <% for i in 1..10 %>
+  <div class="tab-content col-md-10 col-lg-auto mt-3 mt-lg-5 px-lg-0">
+    <% @quizzes.each do |i, quiz|%>
     <div class="tab-pane" id="nav-<%= i %>">
-      <div class="card" style="width: 25rem;">
-        <div class="card-body row">
+      <div class="card quiz-card">
+        <div class="card-body">
+          <div class="row">
 
-          <%= render "posts/post_show", post: h[i][:post] %>
+            <%= render "posts/post_show", post: quiz[:post] %>
 
+          </div>
         </div>
       </div>
     </div>
     <% end %>
   </div>
 </div>
+
 
 <script>
   $('.nav-link').on('click', function (e) {
