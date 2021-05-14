@@ -1,0 +1,16 @@
+<% @post.quiz_options.each do |i, option| %>
+<input class="d-none" type="checkbox" value="<%= i %>" name="answer[]" id="answer_<%= i %>">
+<label class="btn btn-block border btn-light" for="answer_<%= i %>"><%= option %></label>
+<% end %>
+
+<script>
+  $('input:checkbox').click(function () {
+    var id = $(this).val();
+    var $label = $('label[for="answer_' + id + '"]');
+    if ($label.hasClass('btn-light')) {
+      $label.removeClass('btn-light').addClass('btn-success');
+    } else {
+      $label.removeClass('btn-success').addClass('btn-light');
+    }
+  });
+</script>

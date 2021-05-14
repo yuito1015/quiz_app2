@@ -27,7 +27,7 @@
 
   <div class="tab-content col-md-10 col-lg-auto mt-3 mt-lg-5 px-lg-0">
     <% @quizzes.each do |i, quiz|%>
-    <div class="tab-pane" id="nav-<%= i %>">
+    <div class="tab-pane ml-lg-5" id="nav-<%= i %>">
       <div class="card quiz-card">
         <div class="card-body">
           <div class="row">
@@ -44,7 +44,7 @@
 
 
 <script>
-  $('.nav-link').on('click', function (e) {
+  $('.nav-link.d-inline').on('click', function (e) {
     e.preventDefault();
     var nav_id = $(this).attr('id');
     if ($('.active')) {

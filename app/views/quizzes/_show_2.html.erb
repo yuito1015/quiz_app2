@@ -1,0 +1,14 @@
+<% @post.quiz_options.each do |i, option| %>
+<input class="d-none" type="radio" value="<%= i %>" name="answer" id="answer_<%= i %>">
+<label class="btn btn-block border btn-light" for="answer_<%= i %>"><%= option %></label>
+<% end %>
+
+<script>
+  $('input:radio').click(function () {
+    var id = $(this).val();
+    if ($('.btn-success')) {
+      $('.btn-success').removeClass('btn-success').addClass('btn-light');
+    }
+    $('label[for="answer_' + id + '"]').removeClass('btn-light').addClass('btn-success');
+  });
+</script>

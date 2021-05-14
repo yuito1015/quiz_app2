@@ -11,17 +11,18 @@
 
     <%= form_with(url: answer_path(params[:id]), local: true) do |f| %>
 
-    <% if @post.kind == "自由記述" %>
+    <% case @post.kind %>
+    <% when "自由記述" %>
     <%= f.text_field :answer, class: "form-control" %>
 
-    <% elsif @post.kind == "一問一答" %>
-    <% @post.quiz_options.each do |i, option| %>
-    <%= f.radio_button :answer, i, class: "d-none" %>
-    <%= f.label "answer_#{i}", option, type: "button", class: "btn btn-light btn-block border" %>
-    <% end %>
-    <% elsif @post.kind == "一問多答" %>
+    <% when "一問一答" %>
+    <%= render "show_2" %>
 
-    <% elsif @post.kind == "並び替え" %>
+    <% when "一問多答" %>
+    <%= render "show_3" %>
+
+    <% when "並び替え" %>
+    <%= render "show_4" %>
 
     <% end %>
 
@@ -29,14 +30,3 @@
     <% end %>
   </div>
 </div>
-
-
-<script>
-  $('input:radio[name="answer"]').click(function () {
-    var id = $(this).val();
-    if ($('.btn-success')) {
-      $('.btn-success').removeClass('btn-success').addClass('btn-light');
-    }
-    $('label[for="answer_' + id + '"]').removeClass('btn-light').addClass('btn-success');
-  });
-</script>

@@ -17,13 +17,15 @@
   style="padding: 4.5rem 0;">
   <%= render "layouts/header" %>
   <div class="container">
-    <% flash.each do |message_type, message| %>
+    <%= yield %>
+  </div>
+  <% flash.each do |message_type, message| %>
+  <div class="fixed-bottom container">
     <div class="alert alert-<%= message_type %>">
       <%= message %>
     </div>
-    <% end %>
-    <%= yield %>
   </div>
+  <% end %>
 </body>
 
 </html>

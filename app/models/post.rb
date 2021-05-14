@@ -48,14 +48,20 @@ class Post < ApplicationRecord
     when "一問多答"
       answers = answer.split("　")
       id = answers.first.split(",")
-      return id.map { |i| answers[i.to_i] }.join("、")
+      return id.map { |s| answers[s.to_i] }.join("、")
     when "並び替え"
       return answer.split("　").join(" → ")
     end
   end
 
   def quiz_options
-    return answer.split("　").map.with_index { |option, i| [i, option] }
-                 .to_h.sort_by { rand } if kind == "一問一答" || kind == "並び替え"
+    case kind
+    when "一問一答"
+      return answer.split("　").map.with_index { |option, i| [i, option] }.to_h.sort_by { rand }
+    when "一問多答"
+      return answer.split("　").map.with_index { |option, i| [i, option] }.drop(1).to_h.sort_by { rand }
+    when "並び替え"
+      return answer.split("　").map.with_index { |option, i| [i, option] }.to_h.sort_by { rand }
+    end
   end
 end

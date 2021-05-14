@@ -1,0 +1,42 @@
+<% @post.quiz_options.each do |i, option| %>
+<input type="hidden" name="index[]" id="index_<%= i %>" data-id="<%= i %>">
+<input class="d-none" type="checkbox" value="<%= option %>" name="answer[]" id="<%= i %>">
+<label class="btn btn-block border btn-light" for="<%= i %>">
+  <div class="row">
+    <span class="col-auto" id="text_<%= i %>" style="padding-left: 25px;"></span>
+    <p class="col" style="padding-right: 55px;"><%= option %></p>
+  </div>
+</label>
+<% end %>
+
+<script>
+  var i = 1;
+  $('input:checkbox').click(function () {
+    var id = $(this).attr('id');
+    var $index = $(`#index_${id}`);
+    var $label = $('label[for="' + id + '"]');
+    var $text = $(`#text_${id}`);
+
+    if ($label.hasClass('btn-light')) {
+      $index.val(`${i}`);
+      $label.removeClass('btn-light').addClass('btn-success');
+      $text.text(`${i}`);
+      i++;
+    } else {
+      var delete_index = parseInt($index.val());
+      $index.val('');
+      $label.removeClass('btn-success').addClass('btn-light');
+      $text.text('');
+
+      $('input:hidden[name="index[]"]').each(function () {
+        var index = $(this).val();
+        var int_index = parseInt(index);
+        if (index && int_index > delete_index) {
+          $(this).val(`${int_index-1}`);
+          $(`#text_${$(this).attr('data-id')}`).text(`${int_index-1}`);
+        }
+      });
+      i--;
+    }
+  });
+</script>
