@@ -1,11 +1,40 @@
 <label for="post_answer">答え</label>
-<input type="hidden" name="post[answer]" id="post_answer">
+<% if kind == "一問一答" %>
+<small class="ml-3 text-muted">正解の選択肢は1番に書いてください</small>
+<% else %>
+<small class="ml-3 text-muted">正解の順に選択肢を書いてください</small>
+<% end %>
+<input id="post_answer" type="hidden" name="post[answer]">
 
-<% for i in 1..4 %>
+<% @options ? j = @options.length : j = 4 %>
+<% for i in 1..j %>
 <div class="form-group row">
   <label class="col-1 col-form-label pl-4" for="post_<%= i %>"><%= i %></label>
   <div class="col">
-    <input value="<%= @options[i-1] if @options %>" class="form-control" name="options[]" id="post_<%= i %>">
+    <input class="form-control" id="post_<%= i %>" name="options[]" value="<%= @options[i-1] if @options %>">
   </div>
 </div>
 <% end %>
+
+<% for i in (j+1)..20 %>
+<div class="form-group row" id="form_<%= i %>" style="display: none;">
+  <label class="col-1 col-form-label pl-4" for="post_<%= i %>"><%= i %></label>
+  <div class="col">
+    <input class="form-control" id="post_<%= i %>" name="options[]" disabled>
+  </div>
+</div>
+<% end %>
+
+<div class="text-right pr-2" style="height: 37.25px;">
+  <a class="text-muted option-btn" id="<%= j+1 %>" href="">+</a>
+</div>
+
+<script>
+  $('.option-btn').on('click', function (e) {
+    e.preventDefault();
+    var i = parseInt($(this).attr('id'));
+    $(`#form_${i}`).show();
+    $(`#form_${i} input:text`).prop('disabled', false);
+    $(this).attr('id', `${i+1}`);
+  });
+</script>

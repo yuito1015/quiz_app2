@@ -27,3 +27,12 @@ ja:
       previous: <i class="fas fa-angle-left"></i>
       next: <i class="fas fa-angle-right"></i>
       truncate: "..."
+  posts:
+    search_form:
+      kind: 問題形式
+      media: メディア
+      series: シリーズ
+      belong: 所属
+      group: 組織
+      geography: 地理
+      category: カテゴリー

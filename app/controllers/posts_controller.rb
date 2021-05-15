@@ -22,6 +22,7 @@ class PostsController < ApplicationController
     rewrite_answer
     @post = current_user.posts.build(post_params)
     if @post.save
+      store_session_tag
       flash[:success] = "投稿を作成しました"
       redirect_to posts_url
     else
@@ -89,7 +90,7 @@ class PostsController < ApplicationController
   def set_answer
     @answer = params[:post][:answer] if params[:post][:kind] == "自由記述"
     if params[:options]
-      params[:post][:kind] == "一問多答" ? @options = params[:options].drop(1) : @options = params[:options]
+      params[:post][:kind] == "一問多答" && params[:id] ? @options = params[:options].drop(1) : @options = params[:options]
     end
     @ids = params[:ids] if params[:ids]
   end

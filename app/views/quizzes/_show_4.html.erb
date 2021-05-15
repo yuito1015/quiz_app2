@@ -1,6 +1,6 @@
 <% @post.quiz_options.each do |i, option| %>
-<input type="hidden" name="index[]" id="index_<%= i %>" data-id="<%= i %>">
-<input class="d-none" type="checkbox" value="<%= option %>" name="answer[]" id="<%= i %>">
+<input id="index_<%= i %>" data-id="<%= i %>" type="hidden" name="index[]">
+<input class="d-none" id="<%= i %>" type="checkbox" name="answer[]" value="<%= option %>">
 <label class="btn btn-block border btn-light" for="<%= i %>">
   <div class="row">
     <span class="col-auto" id="text_<%= i %>" style="padding-left: 25px;"></span>

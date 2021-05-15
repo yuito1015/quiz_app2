@@ -7,7 +7,7 @@
 </div>
 
 <% if text == "新規登録"%>
-<%= f.hidden_field :image_name, value: "default_#{(1..7).to_a.sample}.png" %>
+<%= f.hidden_field :image_name, value: "default_#{(1..9).to_a.sample}.png" %>
 <% else %>
 <div class="form-group">
   <%= f.label :image_name %>

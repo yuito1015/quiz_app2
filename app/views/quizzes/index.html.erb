@@ -17,7 +17,7 @@
         <% end %>
       </div>
       <div class="col pl-0">
-        <a href="" class="nav-link d-inline p-0" id="nav-<%= i %>">
+        <a class="nav-link d-inline p-0" id="<%= i %>" href="">
           <%= quiz[:post].correct %> / <%= quiz[:answer] %>
         </a>
       </div>
@@ -46,10 +46,10 @@
 <script>
   $('.nav-link.d-inline').on('click', function (e) {
     e.preventDefault();
-    var nav_id = $(this).attr('id');
+    var id = $(this).attr('id');
     if ($('.active')) {
       $('.active').removeClass('active');
     }
-    $(`.tab-pane#${nav_id}`).addClass('active');
+    $(`.tab-pane#nav-${id}`).addClass('active');
   });
 </script>

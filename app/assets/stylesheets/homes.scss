@@ -16,10 +16,6 @@
   select {
     font-size: 16px !important;
   }
-
-  .tab-pane .card {
-    width: 100% !important;
-  }
 }
 
 @include media-breakpoint-down(xs) {
@@ -56,7 +52,8 @@ p {
   }
 }
 
-.comment-btn {
+.comment-btn,
+.option-btn {
   &:hover {
     text-decoration: none;
   }
@@ -67,7 +64,6 @@ p {
 }
 
 .bg {
-  background-image: url("/bg.jpg");
-  background-size: cover;
-  background-position: center;
+  background-color: #87cefa;
+  padding-bottom: 0 !important;
 }

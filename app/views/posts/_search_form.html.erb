@@ -1,39 +1,11 @@
 <%= form_with(url: posts_path, scope: :search, method: :get, local: true) do |f| %>
 <div class="form-row">
+  <% tags.each do |s, a| %>
   <div class="form-group col-lg-6">
-    <%= f.label "問題形式" %>
-    <%= f.select :kind, kind, {include_blank: "指定しない", selected: @search[:kind]}, class: "custom-select" %>
+    <%= f.label t ".#{s}" %>
+    <%= f.select s, a, {include_blank: "指定しない", selected: @search[s]}, class: "custom-select" %>
   </div>
-
-  <div class="form-group col-lg-6">
-    <%= f.label "メディア" %>
-    <%= f.select :media, media, {include_blank: "指定しない", selected: @search[:media]}, class: "custom-select" %>
-  </div>
-
-  <div class="form-group col-lg-6">
-    <%= f.label "シリーズ" %>
-    <%= f.select :series, series, {include_blank: "指定しない", selected: @search[:series]}, class: "custom-select" %>
-  </div>
-
-  <div class="form-group col-lg-6">
-    <%= f.label "所属" %>
-    <%= f.select :belong, belong, {include_blank: "指定しない", selected: @search[:belong]}, class: "custom-select" %>
-  </div>
-
-  <div class="form-group col-lg-6">
-    <%= f.label "組織" %>
-    <%= f.select :group, group, {include_blank: "指定しない", selected: @search[:group]}, class: "custom-select" %>
-  </div>
-
-  <div class="form-group col-lg-6">
-    <%= f.label "地理" %>
-    <%= f.select :geography, geography, {include_blank: "指定しない", selected: @search[:geography]}, class: "custom-select" %>
-  </div>
-
-  <div class="form-group col-lg-6">
-    <%= f.label "カテゴリー" %>
-    <%= f.select :category, category, {include_blank: "指定しない", selected: @search[:category]}, class: "custom-select" %>
-  </div>
+  <% end %>
 </div>
 
 <%= f.submit "検索", class: "btn btn-primary btn-block mt-4" %>

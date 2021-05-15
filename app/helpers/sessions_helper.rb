@@ -15,6 +15,7 @@ module SessionsHelper
 
   def log_out
     session.delete(:user_id)
+    delete_session_tag
     @current_user = nil
   end
 
@@ -53,5 +54,13 @@ module SessionsHelper
   def redirect_back_or(default)
     redirect_to(session[:referrer_url] || default)
     session.delete(:referrer_url)
+  end
+
+  def store_session_tag
+    [:series, :belong, :group, :geography, :category].each { |s| session[s] = params[:post][s] if params[:post][s] }
+  end
+
+  def delete_session_tag
+    [:series, :belong, :group, :geography, :category].each { |s| session.delete(s) if session[s] }
   end
 end

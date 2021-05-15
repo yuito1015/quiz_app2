@@ -1,5 +1,5 @@
 <% @post.quiz_options.each do |i, option| %>
-<input class="d-none" type="radio" value="<%= i %>" name="answer" id="answer_<%= i %>">
+<input class="d-none" id="answer_<%= i %>" type="radio" name="answer" value="<%= i %>">
 <label class="btn btn-block border btn-light" for="answer_<%= i %>"><%= option %></label>
 <% end %>
 

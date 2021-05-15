@@ -10,7 +10,7 @@
     </div>
 
     <%= form_with(url: answer_path(params[:id]), local: true) do |f| %>
-
+    
     <% case @post.kind %>
     <% when "自由記述" %>
     <%= f.text_field :answer, class: "form-control" %>

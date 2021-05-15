@@ -1,21 +1,52 @@
 <label for="post_answer">答え</label>
-<input type="hidden" name="post[answer]" id="post_answer">
+<small class="ml-3 text-muted">正解の選択肢にチェックを入れてください</small>
+<input id="post_answer" type="hidden" name="post[answer]">
 
-<% for i in 1..4 %>
+<% @options ? j = @options.length : j = 4 %>
+<% for i in 1..j %>
 <div class="form-group row align-items-center">
   <div class="col-auto pr-0 pl-4">
     <div class="custom-control custom-checkbox">
       <% if @ids && @ids.include?(i.to_s) %>
-      <input type="checkbox" value="<%= i %>" class="custom-control-input" name="ids[]" id="check_<%= i %>" checked>
+      <input class="custom-control-input" id="check_<%= i %>" type="checkbox" value="<%= i %>" name="ids[]" checked>
       <% else %>
-      <input type="checkbox" value="<%= i %>" class="custom-control-input" name="ids[]" id="check_<%= i %>">
+      <input class="custom-control-input" id="check_<%= i %>" type="checkbox" value="<%= i %>" name="ids[]">
       <% end %>
       <label class="custom-control-label" for="check_<%= i %>"></label>
     </div>
   </div>
   <label class="col-auto col-form-label pr-1 pr-sm-3 pl-2" for="post_<%= i %>"><%= i %></label>
   <div class="col">
-    <input value="<%= @options[i-1] if @options %>" class="form-control" name="options[]" id="post_<%= i %>">
+    <input class="form-control" id="post_<%= i %>" name="options[]" value="<%= @options[i-1] if @options %>">
   </div>
 </div>
 <% end %>
+
+<% for i in (j+1)..(j+10) %>
+<div class="form-group row align-items-center" id="form_<%= i %>" style="display: none;">
+  <div class="col-auto pr-0 pl-4">
+    <div class="custom-control custom-checkbox">
+      <input class="custom-control-input" id="check_<%= i %>" type="checkbox" value="<%= i %>" name="ids[]">
+      <label class="custom-control-label" for="check_<%= i %>"></label>
+    </div>
+  </div>
+  <label class="col-auto col-form-label pr-1 pr-sm-3 pl-2" for="post_<%= i %>"><%= i %></label>
+  <div class="col">
+    <input class="form-control" id="post_<%= i %>" name="options[]" disabled>
+  </div>
+</div>
+<% end %>
+
+<div class="text-right pr-2" style="height: 37.25px;">
+  <a class="text-muted option-btn" id="<%= j+1 %>" href="">+</a>
+</div>
+
+<script>
+  $('.option-btn').on('click', function (e) {
+    e.preventDefault();
+    var i = parseInt($(this).attr('id'));
+    $(`#form_${i}`).show();
+    $(`#form_${i} input:text`).prop('disabled', false);
+    $(this).attr('id', `${i+1}`);
+  });
+</script>
