@@ -2,22 +2,23 @@
 <%= render "shared/error_messages", object: f.object %>
 
 <div class="form-row">
-  <div class="form-group col-sm-6">
-    <%= f.label :kind %>
-    <%= f.select :kind, kind, {}, class: "custom-select" %>
+  <div class="col-12 my-1 text-right">
+    <%= f.submit "リセット", type: :reset, class: "btn btn-outline-primary" %>
   </div>
 
+  <% tags.take(2).each do |s, a| %>
   <div class="form-group col-sm-6">
-    <%= f.label :media %>
-    <%= f.select :media, media, {}, class: "custom-select" %>
+    <%= f.label s %>
+    <%= f.select s, a, {}, class: "custom-select" %>
   </div>
+  <% end %>
 
-  <div class="form-group col-sm-12">
+  <div class="form-group col-12">
     <%= f.label :question %>
     <%= f.text_area :question, class: "form-control", rows: "4" %>
   </div>
 
-  <div class="col-sm-12 answer-form">
+  <div class="col-12 answer-form">
     <%= render "form_1" %>
   </div>
 

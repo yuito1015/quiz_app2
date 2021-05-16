@@ -64,6 +64,21 @@ p {
 }
 
 .bg {
-  background-color: #87cefa;
+  background-color: #81bbeb;
   padding-bottom: 0 !important;
+}
+
+.navbar-dark {
+
+  .navbar-nav .nav-link {
+    color: white;
+  }
+
+  .navbar-toggler {
+    border-color: rgba(255, 255, 255, 0.5);
+  }
+}
+
+input[type="reset"] {
+  font-size: 13px !important;
 }
