@@ -12,3 +12,10 @@
 
 <%= f.submit "検索", class: "btn btn-primary btn-block" %>
 <% end %>
+
+
+<script>
+  $('input:reset').on('click', function () {
+    $('option:selected').removeAttr('selected');
+  });
+</script>

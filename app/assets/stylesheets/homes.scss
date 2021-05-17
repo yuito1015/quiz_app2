@@ -82,3 +82,12 @@ p {
 input[type="reset"] {
   font-size: 13px !important;
 }
+
+@font-face {
+  font-family: "keifont";
+  src: url("/keifont.woff") format("woff");
+}
+
+.title {
+  font-family: "keifont";
+}
