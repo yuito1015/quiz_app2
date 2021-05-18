@@ -1,5 +1,5 @@
 class QuizzesController < ApplicationController
-  before_action :logged_in_user
+  before_action :not_logged_in_user
   after_action :destroy, only: [:index]
 
   def index

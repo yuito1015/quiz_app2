@@ -1,4 +1,6 @@
 module SessionsHelper
+  include PostsHelper
+
   def log_in(user)
     session[:user_id] = user.id
   end
@@ -15,15 +17,15 @@ module SessionsHelper
 
   def log_out
     session.delete(:user_id)
-    delete_session_tag
     @current_user = nil
+    delete_session_tag
   end
 
   def logged_in?
     !current_user.nil?
   end
 
-  def forbid_log_in_user
+  def forbid_logged_in_user
     if logged_in?
       flash[:danger] = "すでにログインしています"
       redirect_to posts_path
@@ -34,8 +36,8 @@ module SessionsHelper
     session[:forwarding_url] = request.original_url if request.get?
   end
 
-  def logged_in_user
-    unless logged_in?
+  def not_logged_in_user
+    if !logged_in?
       store_location
       flash[:danger] = "ログインが必要です"
       redirect_to login_url
@@ -57,10 +59,10 @@ module SessionsHelper
   end
 
   def store_session_tag
-    [:series, :belong, :group, :geography, :category].each { |s| session[s] = params[:post][s] if params[:post][s] }
+    tags.keys.each { |s| session[s] = params[:post][s] if params[:post][s] }
   end
 
   def delete_session_tag
-    [:series, :belong, :group, :geography, :category].each { |s| session.delete(s) if session[s] }
+    tags.keys.each { |s| session.delete(s) if session[s] }
   end
 end

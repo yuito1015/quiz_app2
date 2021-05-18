@@ -1,8 +1,7 @@
 class UsersController < ApplicationController
-  before_action :forbid_log_in_user, only: [:new, :create]
-  before_action :logged_in_user, only: [:index, :show, :edit, :update, :destroy, :following, :followers]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
+  before_action :forbid_logged_in_user, only: [:new, :create]
+  before_action :not_logged_in_user, only: [:index, :show, :edit, :update, :destroy]
+  before_action :correct_user, only: [:edit, :update, :destroy]
 
   def index
     @users = User.page(params[:page])
@@ -37,14 +36,12 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
-    @user.name = params[:user][:name]
-    @user.password = params[:user][:password]
     if params[:user][:image_name]
       @user.image_name = "#{@user.id}.jpg"
       image = params[:user][:image_name]
       File.binwrite("public/icons/#{@user.image_name}", image.read)
     end
-    if @user.save
+    if @user.update(user_params)
       flash[:success] = "ユーザー情報を編集しました"
       redirect_to @user
     else
@@ -53,16 +50,14 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    User.find(params[:id]).destroy
+    @user.destroy
     flash[:success] = "アカウントを削除しました"
-    redirect_to users_url
-  end
-
-  def following
-    @title = "Following"
-    @user = User.find(params[:id])
-    @users = @user.following.paginate(page: params[:page])
-    render "show_follow"
+    if current_user && current_user.admin?
+      redirect_to users_url
+    else
+      log_out
+      redirect_to root_url
+    end
   end
 
   private
@@ -73,14 +68,7 @@ class UsersController < ApplicationController
 
   def correct_user
     @user = User.find(params[:id])
-    unless current_user?(@user)
-      flash[:danger] = "権限がありません"
-      redirect_to(root_url)
-    end
-  end
-
-  def admin_user
-    unless current_user.admin?
+    if !current_user?(@user) && !current_user.admin?
       flash[:danger] = "権限がありません"
       redirect_to(root_url)
     end

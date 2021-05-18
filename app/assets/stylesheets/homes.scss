@@ -1,5 +1,10 @@
 @import "bootstrap";
 
+@font-face {
+  font-family: "keifont";
+  src: url("/keifont.woff") format("woff");
+}
+
 @include media-breakpoint-up(lg) {
   .quiz-card {
     width: 28rem;
@@ -24,6 +29,10 @@
     left: -5%;
     width: 110%;
   }
+}
+
+input[type="reset"] {
+  font-size: 13px !important;
 }
 
 textarea {
@@ -52,11 +61,8 @@ p {
   }
 }
 
-.comment-btn,
-.option-btn {
-  &:hover {
-    text-decoration: none;
-  }
+.navbar-dark .navbar-nav .nav-link {
+  color: white;
 }
 
 .dropdown-menu {
@@ -68,26 +74,13 @@ p {
   padding-bottom: 0 !important;
 }
 
-.navbar-dark {
-
-  .navbar-nav .nav-link {
-    color: white;
-  }
-
-  .navbar-toggler {
-    border-color: rgba(255, 255, 255, 0.5);
-  }
-}
-
-input[type="reset"] {
-  font-size: 13px !important;
-}
-
-@font-face {
-  font-family: "keifont";
-  src: url("/keifont.woff") format("woff");
-}
-
 .title {
   font-family: "keifont";
+}
+
+.comment-btn,
+.option-btn {
+  &:hover {
+    text-decoration: none;
+  }
 }

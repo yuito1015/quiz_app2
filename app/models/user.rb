@@ -10,10 +10,11 @@ class User < ApplicationRecord
   has_many :comment_posts, through: :comments, source: :post
 
   has_many :likes, dependent: :destroy
-  has_many :liked_posts, through: :likes, source: :post
+  has_many :liked_posts, -> { reorder "likes.created_at" }, through: :likes, source: :post
 
+  default_scope -> { order created_at: :desc }
   validates :name, presence: true, uniqueness: { message: "はすでに使われています" }
-  validates :image_name, presence: { message: "を選択してください" }
+  validates :image_name, presence: true
   has_secure_password
   validates :password, presence: true, allow_nil: true
 
@@ -29,6 +30,10 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  def comment?(post)
+    comment_posts.include?(post)
+  end
+
   def like(post)
     liked_posts << post
   end
@@ -39,9 +44,5 @@ class User < ApplicationRecord
 
   def like?(post)
     liked_posts.include?(post)
-  end
-
-  def comment?(post)
-    comment_posts.include?(post)
   end
 end

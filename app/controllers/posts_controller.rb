@@ -1,5 +1,5 @@
 class PostsController < ApplicationController
-  before_action :logged_in_user
+  before_action :not_logged_in_user
   before_action :correct_user, only: [:edit, :update, :destroy]
   before_action :store_referrer, only: [:edit]
 
@@ -46,7 +46,7 @@ class PostsController < ApplicationController
     rewrite_answer
     if @post.update(post_params)
       flash[:success] = "投稿を編集しました"
-      redirect_back_or(@post.user)
+      redirect_back_or @post.user
     else
       set_answer
       render "edit"
@@ -59,7 +59,7 @@ class PostsController < ApplicationController
     if URI(request.referer).path == post_path
       redirect_to posts_url
     else
-      redirect_to request.referer || posts_url
+      redirect_back fallback_location: posts_url
     end
   end
 
@@ -76,9 +76,9 @@ class PostsController < ApplicationController
 
   def correct_user
     @post = current_user.posts.find_by(id: params[:id])
-    if @post.nil?
+    if @post.nil? && !current_user.admin?
       flash[:danger] = "権限がありません"
-      redirect_to posts_url
+      redirect_back fallback_location: @post
     end
   end
 

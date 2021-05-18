@@ -2,6 +2,7 @@
 <%= render "shared/error_messages", object: f.object %>
 
 <div class="form-row">
+  <% if text == "保存" %>
   <div class="col-12 my-1 text-right">
     <%= f.submit "リセット", type: :reset, class: "btn btn-outline-primary" %>
   </div>
@@ -11,6 +12,18 @@
     <%= f.label s %>
     <%= f.select s, a, {}, class: "custom-select" %>
   </div>
+  <% end %>
+  <% else %>
+  <div class="col-12 my-1 text-right">
+    <%= f.submit "リセット", type: :reset, class: "btn btn-outline-primary", id: "reset" %>
+  </div>
+
+  <% tags.take(2).each do |s, a| %>
+  <div class="form-group col-sm-6">
+    <%= f.label s %>
+    <%= f.select s, a, {selected: session[s]}, class: "custom-select" %>
+  </div>
+  <% end %>
   <% end %>
 
   <div class="form-group col-12">
@@ -78,5 +91,9 @@
         $('.answer-form').html('<%= j(render "form_2", kind: "並び替え") %>');
         break;
     }
+  });
+
+  $('#reset').on('click', function () {
+    $('option:selected').removeAttr('selected');
   });
 </script>

@@ -1,11 +1,11 @@
 class LikesController < ApplicationController
-  before_action :logged_in_user
+  before_action :not_logged_in_user
 
   def create
     @post = Post.find(params[:post_id])
     current_user.like(@post)
     respond_to do |format|
-      format.html { redirect_to request.referer || @post }
+      format.html { redirect_back fallback_location: @post }
       format.js
     end
   end
@@ -14,7 +14,7 @@ class LikesController < ApplicationController
     @post = Like.find(params[:id]).post
     current_user.unlike(@post)
     respond_to do |format|
-      format.html { redirect_to request.referer || @post }
+      format.html { redirect_back fallback_location: @post }
       format.js
     end
   end

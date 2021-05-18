@@ -4,14 +4,10 @@ class Post < ApplicationRecord
   has_many :likes, dependent: :destroy
   has_many :liked_users, through: :likes, source: :user
 
-  default_scope -> { order(created_at: :desc) }
+  default_scope -> { order created_at: :desc }
   validates :user_id, presence: true
   validates :question, presence: true, length: { maximum: 140 }
   validates :answer, presence: true
-
-  def comment(user)
-    comments.where(user_id: user.id)
-  end
 
   def self.search(search)
     return all if search.blank?
@@ -26,6 +22,10 @@ class Post < ApplicationRecord
 
   def self.search_tag(column, params)
     params.blank? ? all : where(column => params)
+  end
+
+  def comment(user)
+    comments.where(user_id: user.id)
   end
 
   def options
@@ -55,13 +55,7 @@ class Post < ApplicationRecord
   end
 
   def quiz_options
-    case kind
-    when "一問一答"
-      return answer.split("　").map.with_index { |option, i| [i, option] }.to_h.sort_by { rand }
-    when "一問多答"
-      return answer.split("　").map.with_index { |option, i| [i, option] }.drop(1).to_h.sort_by { rand }
-    when "並び替え"
-      return answer.split("　").map.with_index { |option, i| [i, option] }.to_h.sort_by { rand }
-    end
+    return answer.split("　").map.with_index { |option, i| [i, option] }.drop(1).to_h.sort_by { rand } if kind == "一問多答"
+    return answer.split("　").map.with_index { |option, i| [i, option] }.to_h.sort_by { rand }
   end
 end
