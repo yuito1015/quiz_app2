@@ -10,9 +10,9 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
     @posts = @user.posts.page(params[:page])
-    @comments = @user.comment_posts.distinct.page(params[:page])
-    @likes = @user.liked_posts.page(params[:page])
-    @follows = @user.following.page(params[:page])
+    @comments = @user.ordered_comment_posts.page(params[:page])
+    @likes = @user.ordered_liked_posts.page(params[:page])
+    @follows = @user.ordered_following.page(params[:page])
   end
 
   def new

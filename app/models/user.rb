@@ -10,7 +10,7 @@ class User < ApplicationRecord
   has_many :comment_posts, through: :comments, source: :post
 
   has_many :likes, dependent: :destroy
-  has_many :liked_posts, -> { reorder "likes.created_at" }, through: :likes, source: :post
+  has_many :liked_posts, through: :likes, source: :post
 
   default_scope -> { order created_at: :desc }
   validates :name, presence: true, uniqueness: { message: "はすでに使われています" }
@@ -30,8 +30,16 @@ class User < ApplicationRecord
     following.include?(other_user)
   end
 
+  def ordered_following
+    following.reorder("follows.created_at desc")
+  end
+
   def comment?(post)
     comment_posts.include?(post)
+  end
+
+  def ordered_comment_posts
+    comment_posts.group(:id).reorder("max(comments.created_at) desc")
   end
 
   def like(post)
@@ -44,5 +52,9 @@ class User < ApplicationRecord
 
   def like?(post)
     liked_posts.include?(post)
+  end
+
+  def ordered_liked_posts
+    liked_posts.reorder("likes.created_at desc")
   end
 end
