@@ -1,24 +1,24 @@
-# README
+# OnePieceQuiz
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+これは、クイズの投稿や閲覧、解答ができるアプリケーションです。
 
-Things you may want to cover:
+## 使い方
 
-* Ruby version
+このアプリケーションを動かす場合は、まずはリポジトリを手元にクローンしてください。
+その後、次のコマンドで必要になる RubyGems をインストールします。
 
-* System dependencies
+```
+$ bundle install --without production
+```
 
-* Configuration
+その後、データベースへのマイグレーションを実行します。
 
-* Database creation
+```
+$ rails db:migrate
+```
 
-* Database initialization
+最後に、Railsサーバーを立ち上げてください。
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+```
+$ rails server
+```
